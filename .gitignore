@@ -37,3 +37,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Налаштування IntelliJ IDEA
+.idea/
+out/
+
+# Логи
+*.log
+
+# База даних H2 (якщо вона зберігатиметься у файлі)
+*.mv.db
+*.trace.db
