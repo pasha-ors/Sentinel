@@ -3,7 +3,6 @@
 <head>
     <title>Sentinel Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <meta http-equiv="refresh" content="10">
 </head>
 <body class="container mt-5">
 <h1>Sentinel Monitoring System</h1>
@@ -19,6 +18,23 @@
     </tbody>
 </table>
 
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Add New Site to Monitor</h5>
+        <form th:action="@{/add-target}" method="post" class="row g-3">
+            <div class="col-md-5">
+                <input type="text" name="name" class="form-control" placeholder="Site Name (e.g. Facebook)" required>
+            </div>
+            <div class="col-md-5">
+                <input type="url" name="url" class="form-control" placeholder="https://example.com" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Add Site</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <h2 class="mt-4">Current System Status</h2>
 <table class="table table-hover">
     <thead class="table-dark">
@@ -26,6 +42,7 @@
         <th>Service</th>
         <th>Current Status</th>
         <th>Last Sync</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -37,6 +54,11 @@
                 </span>
         </td>
         <td th:text="${item.lastCheck != null ? #temporals.format(item.lastCheck, 'HH:mm:ss') : '-'}"></td>
+        <td>
+            <form th:action="@{'/delete-target/' + ${item.id}}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

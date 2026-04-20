@@ -8,6 +8,9 @@ import org.example.repository.TargetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,11 +41,28 @@ public class SentinelController {
             String status = (latestLog != null) ? latestLog.getStatus() : "PENDING";
             LocalDateTime time = (latestLog != null) ? latestLog.getCheckedAt() : null;
 
-            report.add(new TargetStatusDTO(target.getName(), target.getUrl(), status, time));
+            report.add(new TargetStatusDTO(target.getId(), target.getName(), target.getUrl(), status, time));
         }
 
         model.addAttribute("report", report);
         return "dashboard";
+    }
+
+    @PostMapping("/add-target")
+    public String addTarget(@RequestParam String name ,@RequestParam String url) {
+        MonitoringTarget target = new MonitoringTarget();
+        target.setName(name);
+        target.setUrl(url);
+
+        targetRepository.save(target);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/delete-target/{id}")
+    public String deleteTarget(@PathVariable Long id) {
+        targetRepository.deleteById(id);
+        return "redirect:/";
     }
 
 }

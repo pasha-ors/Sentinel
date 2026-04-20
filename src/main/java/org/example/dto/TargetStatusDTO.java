@@ -4,17 +4,21 @@ import java.time.LocalDateTime;
 
 public class TargetStatusDTO {
 
-    private String name;
-    private String url;
-    private String status;
-    private LocalDateTime lastCheck;
+    private final Long id;
+    private final String name;
+    private final String url;
+    private final String status;
+    private final LocalDateTime lastCheck;
 
-    public TargetStatusDTO(String name, String url, String status, LocalDateTime lastCheck) {
+    public TargetStatusDTO(Long id,String name, String url, String status, LocalDateTime lastCheck) {
+        this.id = id;
         this.name = name;
         this.url = url;
         this.status = status;
         this.lastCheck = lastCheck;
     }
+
+    public Long getId() { return id; }
 
     public LocalDateTime getLastCheck() {
         return lastCheck;
