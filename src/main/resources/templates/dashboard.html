@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sentinel Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta http-equiv="refresh" content="10">
+</head>
+<body class="container mt-5">
+<h1>Sentinel Monitoring System</h1>
+
+<h2 class="mt-4">Targets</h2>
+<table class="table">
+    <thead><tr><th>Name</th><th>URL</th></tr></thead>
+    <tbody>
+    <tr th:each="t : ${report}">
+        <td th:text="${t.name}"></td>
+        <td><a th:href="${t.url}" th:text="${t.url}" target="_blank"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2 class="mt-4">Current System Status</h2>
+<table class="table table-hover">
+    <thead class="table-dark">
+    <tr>
+        <th>Service</th>
+        <th>Current Status</th>
+        <th>Last Sync</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${report}">
+        <td th:text="${item.name}" class="fw-bold"></td>
+        <td>
+                <span th:text="${item.status}"
+                      th:classappend="${item.status == 'UP' ? 'badge bg-success' : (item.status == 'DOWN' ? 'badge bg-danger' : 'badge bg-secondary')}">
+                </span>
+        </td>
+        <td th:text="${item.lastCheck != null ? #temporals.format(item.lastCheck, 'HH:mm:ss') : '-'}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
